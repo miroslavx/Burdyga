@@ -1,5 +1,6 @@
 from datetime import *
 
+#Ülesanne 1
 tana=date.today()g
 tana=date.today().strftime("%B %d, %Y")
 
@@ -11,7 +12,7 @@ print(d)
 print(m)
 print(y)
 
-#Ülesanne 1
+#Ülesanne 1.1
 
 print("Tere tulemast!")
 nimi=input("Mis on sinu nimi? ").capitalize() #lower()-aaa, upper()-AAA, capitalize
