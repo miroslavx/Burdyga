@@ -94,3 +94,21 @@ print("Ristküliku pindala:", pindala)
 print("Ristküliku ümbermõõt:", umbermoot)
 
 
+#Ülesanne 8
+
+kütus = float(input("Sisesta tangitud kütuse liitrid:"))
+km = float(input("Sisesta läbitud kilomeetrid :"))
+
+kulu = (kütus / km) * 100
+print("Kütusekulu 100 km kohta:", round(kulu, 2), "l/100km")
+
+#Ülesanne 9
+kiirus = 29.9  #Km/chas
+minutid = float(input("Sisesta aeg minutites: "))
+
+teepikkus = (kiirus / 60) * minutid
+print(f"Rulluisutaja jõuab {round(teepikkus, 2)} km kaugusele.")
+
+
+
+#Üleasnne 10
