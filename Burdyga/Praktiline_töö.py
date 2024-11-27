@@ -112,3 +112,9 @@ print(f"Rulluisutaja jõuab {round(teepikkus, 2)} km kaugusele.")
 
 
 #Üleasnne 10
+minutid = int(input("Sisesta aeg minutites: "))
+
+tunnid = minutid // 60
+ulejaanud_minutid = minutid % 60
+
+print(f"{tunnid}:{ulejaanud_minutid}")
