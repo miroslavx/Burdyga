@@ -114,3 +114,28 @@ print(f"Kogu summa: {summa} eurot.")
 
 
 #Ülesanne 9
+
+
+a = float(input("Sisesta külje pikkus A: "))
+b = float(input("Sisesta külje pikkus B: "))
+
+if a == b:
+    print("See on ruut.")
+else:
+    print("See ei ole ruut.")
+
+    #Ülesanne 10
+arv1 = float(input("Sisesta esimene arv: "))
+arv2 = float(input("Sisesta teine arv: "))
+tehe = input("Vali tehe (+, -, *, /): ")
+
+if tehe == "+":
+    print(f"Tulemus: {arv1 + arv2}")
+elif tehe == "-":
+    print(f"Tulemus: {arv1 - arv2}")
+elif tehe == "*":
+    print(f"Tulemus: {arv1 * arv2}")
+elif tehe == "/":
+    print(f"Tulemus: {arv1 / arv2}")
+else:
+    print("Vale tehe.")
