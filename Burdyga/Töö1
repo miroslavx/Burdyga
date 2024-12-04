@@ -139,3 +139,44 @@ elif tehe == "/":
     print(f"Tulemus: {arv1 / arv2}")
 else:
     print("Vale tehe.")
+
+#Ül 11
+
+synnipaev = int(input("Sisesta sünnipäev: "))
+
+if synnipaev % 10 == 0:
+    print("Palju õnne, see on juubel!")
+else:
+    print("See ei ole juubel.")
+
+
+#ül 12
+
+hind = float(input("Sisesta toote hind: "))
+
+if hind <= 10:
+    soodushind = hind * 0.9
+else:
+    soodushind = hind * 0.8
+
+print(f"Lõplik hind on {soodushind} eurot.")
+#ül 13
+sugu = input("Sisesta oma sugu (mees/naine): ").lower()
+
+if sugu == "mees":
+    vanus = int(input("Sisesta oma vanus: "))
+    if 16 <= vanus <= 18:
+        print("Sobid meeskonda!")
+    else:
+        print("Ei sobi vanuse tõttu.")
+else:
+    print("Naistele vanusepiirangut ei ole.")
+
+    #Ül 14
+    inimesed = int(input("Sisesta inimeste arv: "))
+kohad = int(input("Sisesta kohti bussis: "))
+
+bussid = inimesed // kohad + (1 if inimesed % kohad else 0)
+viimased = inimesed % kohad if inimesed % kohad else kohad
+
+print(f"Vaja on {bussid} bussi ja viimases bussis on {viimased} inimest.")
