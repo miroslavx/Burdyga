@@ -1,0 +1,116 @@
+from curses.ascii import isalpha
+import random
+
+nimi = input("Mis on sinu nimi? ")
+if nimi.isalpha() and nimi.isupper():
+    if nimi == "JUKU":
+        print("Lähme kinno")
+    try:
+        vanus = int(input(f"Kui vana sa oled {nimi}? "))
+        if vanus < 0:
+            print("Viga!")
+        elif vanus <= 6:
+            print("Tasuta")
+        elif vanus <= 15:
+            print("Lastepilet")
+        elif vanus <= 65:
+            print("Täispilet")
+        elif vanus <= 100:
+            print("Sooduspilet")
+        else:
+            print("Nii palju!!!")
+    except:
+        print("Täisarv oli vaja sisestada")
+
+ #Ül2
+
+nimi1 = input("Sisesta esimese inimese nimi: ")
+nimi2 = input("Sisesta teise inimese nimi: ")
+
+if nimi1.isalpha() and nimi2.isalpha():
+    print(f"{nimi1} ja {nimi2} on täna pinginaabrid!")
+else:
+    print("Nimed peavad sisaldama ainult tähti.")
+
+#üL3
+
+pikkus = float(input("Sisesta toa pikkus meetrites: "))
+laius = float(input("Sisesta toa laius meetrites: "))
+pindala = pikkus * laius
+print(f"Toa pindala on {pindala} ruutmeetrit.")
+
+soov = input("Kas soovite remonti teha? (jah/ei): ").lower()
+if soov == "jah":
+    hind_m2 = float(input("Sisesta ruutmeetri hind: "))
+    koguhind = pindala * hind_m2
+    print(f"Remondi kogumaksumus on {koguhind} eurot.")
+else:
+    print("Remonti ei tehta.")
+
+#ül 4'
+
+hind = float(input("Sisesta toote alghind: "))
+if hind > 700:
+    soodushind = hind * 0.7
+    print(f"Soodushind on {soodushind} eurot.")
+else:
+    print("Toode ei ole allahindlusega.")
+
+#Ül 5
+
+temperatuur = float(input("Sisesta temperatuur: "))
+if temperatuur > 18:
+    print("Toasoojus on soovitatav.")
+else:
+    print("Toasoojus on alla soovitatava piiri.")
+
+    #ülesanne 6
+
+    pikkus = float(input("Sisesta oma pikkus sentimeetrites: "))
+if pikkus < 150:
+    print("Oled lühike.")
+elif 150 <= pikkus <= 180:
+    print("Oled keskmise pikkusega.")
+else:
+    print("Oled pikk.")
+
+#ülesanne 7
+pikkus = float(input("Sisesta oma pikkus sentimeetrites: "))
+sugu = input("Sisesta oma sugu (mees/naine): ").lower()
+
+if sugu == "mees":
+    if pikkus < 160:
+        print("Oled lühike mees.")
+    elif 160 <= pikkus <= 185:
+        print("Oled keskmise pikkusega mees.")
+    else:
+        print("Oled pikk mees.")
+else:
+    if pikkus < 150:
+        print("Oled lühike naine.")
+    elif 150 <= pikkus <= 170:
+        print("Oled keskmise pikkusega naine.")
+    else:
+        print("Oled pikk naine.")
+
+#Ül 8
+c
+
+tooted = {"piim": random.randint(1, 3), "sai": random.randint(1, 2), "leib": random.randint(2, 4)}
+
+ostukorv = {}
+summa = 0
+
+for toode, hind in tooted.items():
+    kogus = int(input(f"Kui palju {toode} soovid osta? "))
+    if kogus > 0:
+        ostukorv[toode] = kogus
+        summa += kogus * hind
+
+print("\nTšekk:")
+for toode, kogus in ostukorv.items():
+    print(f"{toode}: {kogus} tk, hind kokku: {kogus * tooted[toode]} eurot")
+print(f"Kogu summa: {summa} eurot.")
+
+
+#Ülesanne 9
