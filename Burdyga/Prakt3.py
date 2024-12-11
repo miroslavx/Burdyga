@@ -1,3 +1,42 @@
+#ül 15
+for _ in range(10):
+    print("0 1 2 3 4 5 6 7 8 9")
+
+#ül14
+N = int(input("Sisesta N: "))
+result = 1
+for num in range(1, N + 1):
+    result *= num
+print("Korrutis:", result)
+
+#ül13
+count = 0
+total = 0
+for num in range(100, 1001):
+    if num % 7 == 0:
+        count += 1
+        total += num
+print("Arvude arv:", count)
+print("Arvude summa:", total)
+
+#ül12
+N = int(input("Muruniidukite arv: "))
+m = int(input("Esimese muruniiduki tunnid: "))
+total_hours = 0
+for i in range(N):
+    total_hours += m + i / 6  
+print("Kokku tunde:", total_hours)
+
+#Ül11
+import random
+
+k = random.randint(1, 10)
+result = 1
+for num in range(10, 100):
+    if num % 2 != 0 and num % k == 0:
+        result *= num
+print("Korrutis:", result)
+
 #ÜL10
 for _ in range(10):
     a, b = map(int, input("Sisesta kaks arvu tühikuga eraldatult: ").split())
