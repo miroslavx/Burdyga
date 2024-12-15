@@ -1,85 +1,114 @@
+# Программа для проверки знаний по математике
 
+print("Добро пожаловать в программу проверки знаний по математике!")
 
-from random import *  # Kõik funktsioonid, randint as rd funktsioonide ümbernimetus
-from math import *  # Pi kasutamiseks
+# Выбор уровня сложности
+print("Выберите уровень сложности:")
+print("1. Tase 1")
+print("2. Tase 2")
+print("3. Tase 3")
 
-# Ülesanne 1
-print("Tere Tulemast")
-nimi = input("Mis on sinu nimi? ")
-print("Tere Tulemast! Tervitan sind", nimi)
-print("Tere Tulemast! Tervitan sind " + nimi)  
-vanus = int(input("Kui vana sa oled? "))
-print("Tere Tulemast! Tervitan sind " + nimi + ", sa oled " + str(vanus) + " aastat vana")  
-print(f"Tere Tulemast! Tervitan sind {nimi}, sa oled {vanus} aastat vana")
+while True:
+    level = input("Введите номер уровня (1, 2 или 3): ")
+    if level in ['1', '2', '3']:
+        level = int(level)
+        break
+    else:
+        print("Пожалуйста, введите 1, 2 или 3.")
 
-# Ülesanne 2
-vanus = 18
-eesnimi = "Jaak"
-pikkus = 16.5
-kas_kaib_koolis = True  
+# Настройки в зависимости от уровня
+if level == 1:
+    operations = ['+', '-']
+    max_num = 10
+    num_operations = 1
+elif level == 2:
+    operations = ['+', '-', '*']
+    max_num = 50
+    num_operations = 2
+else:
+    operations = ['+', '-', '*', '/']
+    max_num = 100
+    num_operations = 3
 
-print(f"Vanuse tüüp: {type(vanus)}")
-print(f"Eesnime tüüp: {type(eesnimi)}")
-print(f"Pikkuse tüüp: {type(pikkus)}")
-print(f"Kas käib koolis tüüp: {type(kas_kaib_koolis)}")
+# Выбор количества примеров
+while True:
+    total = input("Сколько примеров вы хотите решить? Введите число: ")
+    if total.isdigit() and int(total) > 0:
+        total = int(total)
+        break
+    else:
+        print("Пожалуйста, введите положительное число.")
 
-kas_kaib_koolis = False
-print(f"Kas käib koolis väärtus: {kas_kaib_koolis}")
+correct = 0
 
-# Ülesanne 3
-kokku = randint(1, 1000)  
-print(f"Kokku on {kokku} kommi")
-kommi = int(input("Mitu kommi sa tahad? "))
-kokku -= kommi
-print(f"Kokku on {kokku} kommi alles")
+# Простейший генератор "случайных" чисел
+seed = 1
 
-# Ülesanne 4
-print("Läbimõõdu leidmine")  
-l = float(input("Ümbermõõt: "))
-d = l / pi
-print(f"Läbimõõdu suurus on {d:.2f}")
+for i in range(total):
+    # Генерация "случайных" чисел и операторов
+    num1 = seed % max_num + 1
+    op1 = operations[seed % len(operations)]
+    seed = (seed * 3 + 7) % 100
+    if num_operations == 1:
+        expression = f"{num1} {op1} {seed % max_num + 1}"
+    elif num_operations == 2:
+        num2 = seed % max_num + 1
+        op2 = operations[seed % len(operations)]
+        seed = (seed * 3 + 7) % 100
+        expression = f"{num1} {op1} {num2} {op2} {seed % max_num + 1}"
+    else:
+        num2 = seed % max_num + 1
+        op2 = operations[seed % len(operations)]
+        seed = (seed * 3 + 7) % 100
+        num3 = seed % max_num + 1
+        op3 = operations[seed % len(operations)]
+        seed = (seed * 3 + 7) % 100
+        expression = f"{num1} {op1} {num2} {op2} {num3} {op3} {seed % max_num + 1}"
 
+    # Избегаем деления на ноль
+    if '/' in expression:
+        parts = expression.split()
+        for j in range(len(parts)):
+            if parts[j] == '/':
+                if int(parts[j+1]) == 0:
+                    parts[j+1] = '1'  # Заменяем 0 на 1
+        expression = ' '.join(parts)
 
+    # Вычисление результата
+    try:
+        result = eval(expression)
+        if '/' in expression:
+            result = round(result, 2)
+    except:
+        result = "Ошибка"
 
-#ülesanne 5
-N = float(input("Sisesta ristküliku laius: "))
-M = float(input("Sisesta ristküliku pikkus: "))
-diagonaal = math.sqrt(N**2 + M**2)
-print(f"Ristküliku diagonaal on {diagonaal:.2f}")
+    # Вывод примера и получение ответа
+    print(f"Пример {i+1}: {expression} = ?")
+    answer = input("Ваш ответ: ")
 
-#ülesanne 6
-aeg = float(input("Mitu tundi kulus sõiduks? "))
-teepikkus = float(input("Mitu kilomeetrit sõitsid? "))
-kiirus = teepikkus / aeg
-print(f"Sinu kiirus oli {kiirus:.2f} km/h")
+    # Проверка ответа
+    try:
+        if float(answer) == result:
+            print("Правильно!\n")
+            correct += 1
+        else:
+            print(f"Неправильно. Правильный ответ: {result}\n")
+    except:
+        print(f"Неправильно. Правильный ответ: {result}\n")
 
-#ülesanne 7
-arvud = []
-for i in range(5):
-    arv = int(input(f"Sisesta {i+1}. täisarv: "))
-    arvud.append(arv)
-keskmine = sum(arvud) / len(arvud)
-print(f"Aritmeetiline keskmine on {keskmine:.2f}")
+# Вычисление процента правильных ответов
+percent = (correct / total) * 100
 
-#ülesanne 8
-print("   @..@")
-print("  (----)")
-print(" ( \\__/ )")
-print("^^ \"\" ^^")
+# Определение оценки
+if percent < 60:
+    grade = "Hinne 2"
+elif percent < 75:
+    grade = "Hinne 3"
+elif percent < 90:
+    grade = "Hinne 4"
+else:
+    grade = "Hinne 5"
 
-#ülesanne 9
-a = 3
-b = 4
-c = 5
-P = a + b + c
-print(f"Kolmnurga ümbermõõt on {P}")
-
-#ülesanne 10
-P = int(input("Mitu sõpra on? "))
-pitsa_hind = 12.90
-jootraha = pitsa_hind * 0.1
-kokku = pitsa_hind + jootraha
-igaüks_maksab = kokku / P
-print(f"Igaüks peab maksma {igaüks_maksab:.2f} €")
-
-
+# Вывод результата
+print(f"Вы решили {correct} из {total} примеров правильно.")
+print(f"Ваш результат: {percent:.2f}% - {grade}")
