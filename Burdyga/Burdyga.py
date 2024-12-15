@@ -1,22 +1,18 @@
-# Программа для проверки знаний по математике
+print("Tere tulemast matemaatika teadmiste testimise programmi!")
 
-print("Добро пожаловать в программу проверки знаний по математике!")
-
-# Выбор уровня сложности
-print("Выберите уровень сложности:")
+print("Valige raskusaste:")
 print("1. Tase 1")
 print("2. Tase 2")
 print("3. Tase 3")
 
 while True:
-    level = input("Введите номер уровня (1, 2 или 3): ")
+    level = input("Sisestage taseme number (1, 2 või 3): ")
     if level in ['1', '2', '3']:
         level = int(level)
         break
     else:
-        print("Пожалуйста, введите 1, 2 или 3.")
+        print("Palun sisestage 1, 2 või 3.")
 
-# Настройки в зависимости от уровня
 if level == 1:
     operations = ['+', '-']
     max_num = 10
@@ -30,22 +26,18 @@ else:
     max_num = 100
     num_operations = 3
 
-# Выбор количества примеров
 while True:
-    total = input("Сколько примеров вы хотите решить? Введите число: ")
+    total = input("Mitu ülesannet soovite lahendada? Sisestage arv: ")
     if total.isdigit() and int(total) > 0:
         total = int(total)
         break
     else:
-        print("Пожалуйста, введите положительное число.")
+        print("Palun sisestage positiivne arv.")
 
 correct = 0
-
-# Простейший генератор "случайных" чисел
 seed = 1
 
 for i in range(total):
-    # Генерация "случайных" чисел и операторов
     num1 = seed % max_num + 1
     op1 = operations[seed % len(operations)]
     seed = (seed * 3 + 7) % 100
@@ -65,41 +57,35 @@ for i in range(total):
         seed = (seed * 3 + 7) % 100
         expression = f"{num1} {op1} {num2} {op2} {num3} {op3} {seed % max_num + 1}"
 
-    # Избегаем деления на ноль
     if '/' in expression:
         parts = expression.split()
         for j in range(len(parts)):
             if parts[j] == '/':
                 if int(parts[j+1]) == 0:
-                    parts[j+1] = '1'  # Заменяем 0 на 1
+                    parts[j+1] = '1'
         expression = ' '.join(parts)
 
-    # Вычисление результата
     try:
         result = eval(expression)
         if '/' in expression:
             result = round(result, 2)
     except:
-        result = "Ошибка"
+        result = "Viga"
 
-    # Вывод примера и получение ответа
-    print(f"Пример {i+1}: {expression} = ?")
-    answer = input("Ваш ответ: ")
+    print(f"Ülesanne {i+1}: {expression} = ?")
+    answer = input("Teie vastus: ")
 
-    # Проверка ответа
     try:
         if float(answer) == result:
-            print("Правильно!\n")
+            print("Õige!\n")
             correct += 1
         else:
-            print(f"Неправильно. Правильный ответ: {result}\n")
+            print(f"Vale. Õige vastus: {result}\n")
     except:
-        print(f"Неправильно. Правильный ответ: {result}\n")
+        print(f"Vale. Õige vastus: {result}\n")
 
-# Вычисление процента правильных ответов
 percent = (correct / total) * 100
 
-# Определение оценки
 if percent < 60:
     grade = "Hinne 2"
 elif percent < 75:
@@ -109,6 +95,5 @@ elif percent < 90:
 else:
     grade = "Hinne 5"
 
-# Вывод результата
-print(f"Вы решили {correct} из {total} примеров правильно.")
-print(f"Ваш результат: {percent:.2f}% - {grade}")
+print(f"Lahendasite õigesti {correct} ülesannet {total}-st.")
+print(f"Teie tulemus: {percent:.2f}% - {grade}")
