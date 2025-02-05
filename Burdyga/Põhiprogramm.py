@@ -1,28 +1,27 @@
-from MyModule import registreerimine, autoriseerimine, muuda_andmeid, parooli_taastamine
+from MyModule import registreeri, autoriseeri, muuda_andmeid, taasta_parool
 
-loginid = []
+logid = []
 paroolid = []
 
 while True:
-    print("\nValige tegevus:")
+    print("\nVali tegevus:")
     print("1. Registreerimine")
     print("2. Autoriseerimine")
-    print("3. Nime või parooli muutmine")
-    print("4. Unustatud parooli taastamine")
-    print("5. Lõpetamine")
+    print("3. Muuda nime/parooli")
+    print("4. Taasta parool")
+    print("5. Välju")
+    valik = input("Sisesta number (1-5): ")
 
-    valik = input("Teie valik: ")
-
-    if valik == "1":
-        registreerimine(loginid, paroolid)
-    elif valik == "2":
-        autoriseerimine(loginid, paroolid)
-    elif valik == "3":
-        muuda_andmeid(loginid, paroolid)
-    elif valik == "4":
-        parooli_taastamine(loginid, paroolid)
-    elif valik == "5":
-        print("Programmi lõpetamine.")
+    if valik == '1':
+        registreeri(logid, paroolid)
+    elif valik == '2':
+        autoriseeri(logid, paroolid)
+    elif valik == '3':
+        muuda_andmeid(logid, paroolid)
+    elif valik == '4':
+        taasta_parool(logid, paroolid)
+    elif valik == '5':
+        print("Head aega!")
         break
     else:
-        print("Vale valik, proovige uuesti!")
+        print("Vigane valik!")
