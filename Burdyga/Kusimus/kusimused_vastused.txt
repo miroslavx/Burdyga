@@ -1,0 +1,5 @@
+Mis on Python?:Python on programmeerimiskeel.
+Mis on list?:List on järjestatud andmekogum.
+mis on sõnastik?:Sõnastik on võtme-väärtus paaride kogum.
+Mis on funktsioon?:Funktsioon on koodiblokk, mida saab välja kutsuda.
+Mis on tsükkel?:Tsükkel on koodi osa, mida korratakse.
