@@ -1,7 +1,11 @@
-﻿from string import *
+from locale import dgettext
+from re import T
+from string import *
 from time import sleep
 from os import path, remove, system
 from tkinter import simpledialog as sd
+from unicodedata import is_normalized
+from xmlrpc.server import SimpleXMLRPCDispatcher
 from gtts import *
 def registreerimine(kasutajad:list,paroolid:list)->any:
     """Kirjeldus
@@ -131,8 +135,7 @@ def loe_ankeet(fail:str)->any:
     
         #k,v=line.strip().split(":")
         #kus_vas[k]=v
-
-    import smtplib, ssl
+        import smtplib, ssl
 from email.message import EmailMessage
 
 def saada_kiri(nimi: str, parool: str):
@@ -140,7 +143,7 @@ def saada_kiri(nimi: str, parool: str):
     kiri = "Sa oled registreeritud. Sinu kasutajanimi on " + nimi + ", sinu salasõna on " + parool
     smtp_server = "smtp.gmail.com"
     port = 587
-    sender_email = "oleinik.marina@gmail.com"
+    sender_email = "burmir05@gmail.com"
     password = "sdas fssd dsf ghgh"
 
     context = ssl.create_default_context()
@@ -149,7 +152,7 @@ def saada_kiri(nimi: str, parool: str):
     msg['Subject'] = "E-kiri saatmine"
     msg['From'] = "Marina Oleinik"
     msg['To'] = kellele
-
+    
     try:
         server = smtplib.SMTP(smtp_server, port)
         server.starttls(context=context)
@@ -160,6 +163,6 @@ def saada_kiri(nimi: str, parool: str):
         print("Tekkis viga!", e)
     finally:
         server.quit()
-        
+
     fail.close()
-    return kus,vas #,kus_vas
+    return kus,vas #,kus_vas 
