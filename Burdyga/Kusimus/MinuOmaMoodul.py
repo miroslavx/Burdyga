@@ -150,7 +150,7 @@ def saada_kiri(nimi: str, parool: str):
     msg = EmailMessage()
     msg.set_content(kiri)
     msg['Subject'] = "E-kiri saatmine"
-    msg['From'] = "Marina Oleinik"
+    msg['From'] = "Miroslav Burdyga"
     msg['To'] = kellele
     
     try:
