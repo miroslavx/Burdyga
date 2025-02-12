@@ -131,6 +131,35 @@ def loe_ankeet(fail:str)->any:
     
         #k,v=line.strip().split(":")
         #kus_vas[k]=v
+
+    import smtplib, ssl
+from email.message import EmailMessage
+
+def saada_kiri(nimi: str, parool: str):
+    kellele = input("Kellele: ")
+    kiri = "Sa oled registreeritud. Sinu kasutajanimi on " + nimi + ", sinu salasõna on " + parool
+    smtp_server = "smtp.gmail.com"
+    port = 587
+    sender_email = "oleinik.marina@gmail.com"
+    password = "sdas fssd dsf ghgh"
+
+    context = ssl.create_default_context()
+    msg = EmailMessage()
+    msg.set_content(kiri)
+    msg['Subject'] = "E-kiri saatmine"
+    msg['From'] = "Marina Oleinik"
+    msg['To'] = kellele
+
+    try:
+        server = smtplib.SMTP(smtp_server, port)
+        server.starttls(context=context)
+        server.login(sender_email, password)
+        server.send_message(msg)
+        print("Informatsioon: Kiri oli saadetud")
+    except Exception as e:
+        print("Tekkis viga!", e)
+    finally:
+        server.quit()
         
     fail.close()
     return kus,vas #,kus_vas
