@@ -1,171 +1,175 @@
 import tkinter as tk
 import random
-
 words = [
     "TERAS", "KLAAR", "LINNA", "ROHUS",
     "SUVIS", "TALVE", "METSA", "KALLE",
     "PÄIKE", "ÕUN", "TÜHI", "KÜLIM",
     "MÄGI", "JÕGI", "NÄIDE"
 ]
+MAX_KATSEID = 6  
+SÕNA_PIKKUS = 5  
+juur = None  
+salajane_sõna = None  
+katseid = []  
+praegune_katse = 0 
+lahtrid = []  
+sisend = None  
+nupp = None
+klaviatuur = {}
+teade_silt = None  
 
-MAX_ATTEMPTS = 6
-WORD_LENGTH = 5
+def initsialiseeri_mäng(juur_param):
+    global juur, salajane_sõna, katseid, praegune_katse
+    juur = juur_param
+    juur.title("Wordle")
+    
+    salajane_sõna = random.choice(words).upper()
+    katseid = []
+    praegune_katse = 0
+    
+    loo_võre()
+    loo_sisend()
+    loo_klaviatuur()
+    loo_teade_silt()
+    
+def loo_võre():
+    global lahtrid
+    võre_raam = tk.Frame(juur)
+    võre_raam.pack(pady=10)
+    
+    lahtrid = []
+    for rida in range(MAX_KATSEID):
+        rea_lahtrid = []
+        for veerg in range(SÕNA_PIKKUS):
+            laht = tk.Label(võre_raam, 
+                           text=" ", 
+                           font=("Arial", 24), 
+                           width=2, 
+                           relief="solid",
+                           bg="white")
+            laht.grid(row=rida, column=veerg, padx=5, pady=5)
+            rea_lahtrid.append(laht)
+        lahtrid.append(rea_lahtrid)
+def loo_sisend():
+    global sisend, nupp
+    sisend_raam = tk.Frame(juur)
+    sisend_raam.pack(pady=10)
+    
+    sisend = tk.Entry(sisend_raam, 
+                    font=("Arial", 24), 
+                    width=6,
+                    justify="center")
+    sisend.pack(side=tk.LEFT, padx=5)
+    sisend.bind("<Return>", lambda event: kontrolli_arvamust())
+    
+    nupp = tk.Button(sisend_raam, 
+                      text="Kontrolli", 
+                      command=kontrolli_arvamust)
+    nupp.pack(side=tk.LEFT, padx=5)
 
-class WordleGame:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Wordle")
-        
-        self.secret_word = random.choice(words).upper()
-        self.attempts = []
-        self.current_attempt = 0
-        
-        self.create_grid()
-        self.create_input()
-        self.create_keyboard()
-        self.create_message_label()
+def loo_klaviatuur():
+    global klaviatuur
+    klaviatuur_raam = tk.Frame(juur)
+klaviatuur_raam.pack(pady=10)
     
-    def create_grid(self):
-        self.grid_frame = tk.Frame(self.root)
-        self.grid_frame.pack(pady=10)
-        
-        self.cells = []
-        for row in range(MAX_ATTEMPTS):
-            row_cells = []
-            for col in range(WORD_LENGTH):
-                cell = tk.Label(self.grid_frame, 
-                               text=" ", 
-                               font=("Arial", 24), 
-                               width=2, 
-                               relief="solid",
-                               bg="white")
-                cell.grid(row=row, column=col, padx=5, pady=5)
-                row_cells.append(cell)
-            self.cells.append(row_cells)
+    klaviatuur = {}
+    read = ["QWERTYUIÕ", "ASDFGHJKÄ", "ZXCVBNMÖÜ"]
     
-    def create_input(self):
-        input_frame = tk.Frame(self.root)
-        input_frame.pack(pady=10)
-        
-        self.entry = tk.Entry(input_frame, 
-                            font=("Arial", 24), 
-                            width=6,
-                            justify="center")
-        self.entry.pack(side=tk.LEFT, padx=5)
-        self.entry.bind("<Return>", lambda event: self.check_guess())
-        
-        self.button = tk.Button(input_frame, 
-                              text="Kontrolli", 
-                              command=self.check_guess)
-        self.button.pack(side=tk.LEFT, padx=5)
-    
-    def create_keyboard(self):
-        keyboard_frame = tk.Frame(self.root)
-        keyboard_frame.pack(pady=10)
-        
-        self.keyboard = {}
-        rows = ["QWERTYUIÕ", "ASDFGHJKÄ", "ZXCVBNMÖÜ"]
-        
-        for row in rows:
-            row_frame = tk.Frame(keyboard_frame)
-            row_frame.pack()
-            for char in row:
-                btn = tk.Label(row_frame, 
-                             text=char, 
-                             font=("Arial", 12), 
-                             width=2, 
-                             relief="raised",
-                             bg="white")
-                btn.pack(side=tk.LEFT, padx=2, pady=2)
-                self.keyboard[char] = btn
-    
-    def create_message_label(self):
-        self.message_label = tk.Label(self.root, 
-                                    text="", 
-                                    font=("Arial", 14),
-                                    fg="red")
-        self.message_label.pack(pady=10)
-    
-    def check_guess(self):
-        guess = self.entry.get().upper()
-        
-        if len(guess) != WORD_LENGTH:
-            self.show_message(f"Sisesta {WORD_LENGTH}-täheline sõna!")
-            return
-        
-        self.attempts.append(guess)
-        self.update_grid()
-        self.update_keyboard(guess)
-        
-        if guess == self.secret_word:
-            self.show_message("Arvasid sõna ära! Palju õnne!")
-            self.disable_input()
-        elif self.current_attempt >= MAX_ATTEMPTS - 1:
-            self.show_message(f"Mäng läbi! Sõna oli: {self.secret_word}")
-            self.disable_input()
-        else:
-            self.current_attempt += 1
-        
-        self.entry.delete(0, tk.END)
-    
-    def update_grid(self):
-        guess = self.attempts[-1]
-        colors = self.get_colors(guess)
-        
-        for col in range(WORD_LENGTH):
-            self.cells[self.current_attempt][col].config(
-                text=guess[col],
-                bg=colors[col]
-            )
-    
-    def get_colors(self, guess):
-        colors = ["gray"] * WORD_LENGTH
-        secret = list(self.secret_word)
-        guess_list = list(guess)
-        
-        for i in range(WORD_LENGTH):
-            if guess_list[i] == secret[i]:
-                colors[i] = "green"
-                secret[i] = None
-                guess_list[i] = None
-        
-        for i in range(WORD_LENGTH):
-            if guess_list[i] is not None and guess_list[i] in secret:
-                colors[i] = "yellow"
-                secret.remove(guess_list[i])
-        
-        return colors
-    
-    def update_keyboard(self, guess):
-        colors = self.get_colors(guess)
-        used_letters = set(guess)
-        
-        for letter in used_letters:
-            if letter in self.keyboard:
-                current_color = self.keyboard[letter].cget("bg")
-                new_color = self.get_letter_color(letter, colors, guess)
-                
-                if current_color != "green":
-                    self.keyboard[letter].config(bg=new_color)
-    
-    def get_letter_color(self, letter, colors, guess):
-        best_color = "gray"
-        for i in range(WORD_LENGTH):
-            if guess[i] == letter:
-                if colors[i] == "green":
-                    return "green"
-                elif colors[i] == "yellow":
-                    best_color = "yellow"
-        return best_color
-    
-    def show_message(self, message):
-        self.message_label.config(text=message)
-    
-    def disable_input(self):
-        self.entry.config(state=tk.DISABLED)
-        self.button.config(state=tk.DISABLED)
+    for rida in read:
+        rea_raam = tk.Frame(klaviatuur_raam)
+        rea_raam.pack()
+        for täht in rida:
+            nupp = tk.Label(rea_raam, 
+                         text=täht, 
+                         font=("Arial", 12), 
+                         width=2, 
+                        relief="raised",
+                         bg="white")
+        nupp.pack(side=tk.LEFT, padx=2, pady=2)
+            klaviatuur[täht] = nupp
 
+def loo_teade_silt():
+    global teade_silt
+    teade_silt = tk.Label(juur, 
+            text="", 
+             font=("Arial", 14),
+                 fg="red")
+    teade_silt.pack(pady=10)
+
+def kontrolli_arvamust():
+    global praegune_katse
+    arvamus = sisend.get().upper()
+    
+    if len(arvamus) != SÕNA_PIKKUS:
+        näita_teadet(f"Sisesta {SÕNA_PIKKUS}-täheline sõna!")
+        return
+    katseid.append(arvamus)
+    uuenda_võre()
+    uuenda_klaviatuuri(arvamus)
+    
+    if arvamus == salajane_sõna:
+        näita_teadet("Arvasid sõna ära! Palju õnne!")
+        keelata_sisend()
+    elif praegune_katse >= MAX_KATSEID - 1:
+        näita_teadet(f"Mäng läbi! Sõna oli: {salajane_sõna}")
+        keelata_sisend()
+    else:
+        praegune_katse += 1
+    
+    sisend.delete(0, tk.END)
+def uuenda_võre():
+    arvamus = katseid[-1]
+    värvid = saa_värvid(arvamus)
+    
+    for veerg in range(SÕNA_PIKKUS):
+        lahtrid[praegune_katse][veerg].config(
+            text=arvamus[veerg],
+            bg=värvid[veerg])
+
+def saa_värvid(arvamus):
+    värvid = ["gray"] * SÕNA_PIKKUS
+    salajane = list(salajane_sõna)
+    arvamus_list = list(arvamus)
+    for i in range(SÕNA_PIKKUS):
+        if arvamus_list[i] == salajane[i]:
+            värvid[i] = "green"
+            salajane[i] = None
+            arvamus_list[i] = None
+    
+    for i in range(SÕNA_PIKKUS):
+        if arvamus_list[i] is not None and arvamus_list[i] in salajane:
+            värvid[i] = "yellow"
+            salajane.remove(arvamus_list[i])   
+    return värvid
+    
+def uuenda_klaviatuuri(arvamus):
+    värvid = saa_värvid(arvamus)
+    kasutatud_tähed = set(arvamus)
+    
+    for täht in kasutatud_tähed:
+        if täht in klaviatuur:
+            praegune_värv = klaviatuur[täht].cget("bg")
+            uus_värv = saa_tähe_värv(täht, värvid, arvamus)
+            
+            if praegune_värv != "green":
+                klaviatuur[täht].config(bg=uus_värv)
+def saa_tähe_värv(täht, värvid, arvamus):
+    parim_värv = "gray"
+    for i in range(SÕNA_PIKKUS):
+        if arvamus[i] == täht:
+            if värvid[i] == "green":
+                return "green"
+            elif värvid[i] == "yellow":
+                parim_värv = "yellow"
+    return parim_värv
+    
+def näita_teadet(teade):
+    teade_silt.config(text=teade)
+
+def keelata_sisend():
+    sisend.config(state=tk.DISABLED)
+    nupp.config(state=tk.DISABLED)
 if __name__ == "__main__":
-    root = tk.Tk()
-    game = WordleGame(root)
-    root.mainloop()
+    juur = tk.Tk()
+    initsialiseeri_mäng(juur)
+    juur.mainloop()
