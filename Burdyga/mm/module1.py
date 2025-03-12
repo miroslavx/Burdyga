@@ -1,10 +1,9 @@
-﻿import sqlite3
+import sqlite3
 from sqlite3 import Error
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 
-# Database setup
 def create_connection(path):
     conn = None
     try:
@@ -52,7 +51,6 @@ def create_tables(conn):
     except Error as e:
         print(f"Viga tabelite loomisel: {e}")
 
-# CRUD operations
 def insert_autor(conn, autor_nimi, sünnikuupäev):
     sql = '''INSERT INTO Autorid(autor_nimi, sünnikuupäev)
              VALUES(?,?)'''
@@ -129,8 +127,6 @@ def drop_table(conn, table_name):
         conn.commit()
     except Error as e:
         print(f"Viga tabeli {table_name} kustutamisel: {e}")
-
-# GUI Application
 class BookApp(tk.Tk):
     def __init__(self, conn):
         super().__init__()
@@ -142,15 +138,9 @@ class BookApp(tk.Tk):
         self.load_data()
         
     def create_widgets(self):
-        # Notebook for tabs
-        self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill=tk.BOTH, expand=True)
-        
-        # Books Tab
         self.books_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.books_frame, text="Raamatud")
-        
-        # Books List
         self.books_tree = ttk.Treeview(self.books_frame, columns=('ID', 'Pealkiri', 'Kuupäev', 'Autor', 'Žanr'), show='headings')
         self.books_tree.heading('ID', text='ID')
         self.books_tree.heading('Pealkiri', text='Pealkiri')
@@ -158,8 +148,6 @@ class BookApp(tk.Tk):
         self.books_tree.heading('Autor', text='Autor')
         self.books_tree.heading('Žanr', text='Žanr')
         self.books_tree.pack(fill=tk.BOTH, expand=True)
-        
-        # Add Book Form
         add_frame = ttk.Frame(self.books_frame)
         add_frame.pack(pady=10)
         
@@ -182,11 +170,8 @@ class BookApp(tk.Tk):
         ttk.Button(add_frame, text="Lisa uus raamat", command=self.add_book).grid(row=4, columnspan=2)
         
     def load_data(self):
-        # Clear existing data
         for item in self.books_tree.get_children():
             self.books_tree.delete(item)
-            
-        # Load books
         books = get_all_raamatud(self.conn)
         for book in books:
             self.books_tree.insert('', 'end', values=book)
@@ -208,30 +193,21 @@ class BookApp(tk.Tk):
         except Error as e:
             messagebox.showerror("Viga", f"Viga raamatu lisamisel: {e}")
 
-# Main program
 if __name__ == "__main__":
-    # Initialize database
+
     conn = create_connection("raamatud.db")
     if conn is not None:
         create_tables(conn)
-        
-        # Insert sample data
         try:
-            # Insert authors
+
             insert_autor(conn, "J.K. Rowling", "1965-07-31")
             insert_autor(conn, "George Orwell", "1903-06-25")
-            
-            # Insert genres
             insert_zanr(conn, "Fantaasia")
             insert_zanr(conn, "Düstoopia")
-            
-            # Insert books
             insert_raamat(conn, "Harry Potter", "1997-06-26", 1, 1)
             insert_raamat(conn, "1984", "1949-06-08", 2, 2)
         except Error as e:
             print(f"Viga näidisandmete lisamisel: {e}")
-        
-        # Start GUI
         app = BookApp(conn)
         app.mainloop()
         
