@@ -1,3 +1,4 @@
+
 import sqlite3
 import tkinter as tk
 from tkinter import ttk
@@ -22,7 +23,6 @@ def loo_andmebaas():
                 description TEXT
             )
         ''')
-
         cursor.executemany('''
             INSERT OR IGNORE INTO movies (title, director, release_year, genre, duration, rating, language, country, description) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -58,7 +58,6 @@ def load_data_from_db(tree, search_query=""):
             cursor.execute("SELECT title, director, release_year, genre, duration, rating, language, country, description FROM movies WHERE title LIKE ?", ('%' + search_query + '%',))
         else:
             cursor.execute("SELECT title, director, release_year, genre, duration, rating, language, country, description FROM movies")
-
         rows = cursor.fetchall()
         for row in rows:
             tree.insert("", "end", values=row)
@@ -81,12 +80,11 @@ if __name__ == "__main__":
     loo_andmebaas()
     root = tk.Tk()
     root.title("Filmid")
+
     search_frame = tk.Frame(root)
     search_frame.pack(pady=10)
-
     search_label = tk.Label(search_frame, text="Otsi filmi pealkirja järgi:")
     search_label.pack(side=tk.LEFT)
-
     search_entry = tk.Entry(search_frame)
     search_entry.pack(side=tk.LEFT, padx=10)
 
@@ -98,6 +96,7 @@ if __name__ == "__main__":
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     tree = ttk.Treeview(frame, yscrollcommand=scrollbar.set, columns=("title", "director", "year", "genre", "duration", "rating", "language", "country", "description"), show="headings")
     tree.pack(fill=tk.BOTH, expand=True)
+
     scrollbar.config(command=tree.yview)
     tree.heading("title", text="Pealkiri")
     tree.heading("director", text="Režissöör")
@@ -118,8 +117,8 @@ if __name__ == "__main__":
     tree.column("language", width=80)
     tree.column("country", width=80)
     tree.column("description", width=200)
+
     load_data_from_db(tree)
     open_button = tk.Button(root, text="Lisa andmeid", command=add_data)
     open_button.pack(pady=20)
-
     root.mainloop()
