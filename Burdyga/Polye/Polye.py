@@ -78,7 +78,6 @@ class PoleChudes:
             "cell_revealed": "#4DDA6E",
             "border": "#333333"      
         }
-       
         self.root.configure(bg=self.current_theme["bg_main"])
         self.setup_fonts()
         self.setup_styles()
@@ -91,7 +90,6 @@ class PoleChudes:
     def setup_fonts(self):
         """Настройка шрифтов"""
         default_family = "Helvetica"
-       
         self.title_font = font.Font(family=default_family, size=22, weight="bold")
         self.subtitle_font = font.Font(family=default_family, size=16, weight="bold")
         self.word_font = font.Font(family=default_family, size=18, weight="bold")
@@ -107,13 +105,12 @@ class PoleChudes:
         self.style.configure("TNotebook", background=self.current_theme["bg_main"])
         self.style.configure("TNotebook.Tab",
                             background=self.current_theme["bg_secondary"],
-                            foreground="black",  # Изменил цвет текста на черный
+                            foreground="black", 
                             padding=[10, 5],
                             font=('Helvetica', 11))
-       
         self.style.map("TNotebook.Tab",
                       background=[("selected", self.current_theme["bg_accent"])],
-                      foreground=[("selected", "black")])  # Сделал цвет текста выбранной вкладки черным
+                      foreground=[("selected", "black")]) 
         self.style.configure("Treeview",
                             background=self.current_theme["bg_secondary"],
                             foreground=self.current_theme["fg_main"],
@@ -124,7 +121,7 @@ class PoleChudes:
                       foreground=[("selected", self.current_theme["fg_main"])])
         self.style.configure("Treeview.Heading",
                             background=self.current_theme["header_bg"],
-                            foreground="black",  # Изменил цвет заголовков на черный
+                            foreground="black",  
                             font=('Helvetica', 11, 'bold'))
    
     def setup_game_variables(self):
@@ -135,7 +132,7 @@ class PoleChudes:
             "БАНКРОТ", "ПРИЗ", "+", 100, 200, 300, 400, 500, 600, 700
         ]
         
-        # Фразы ведущего при неправильной букве
+#Траллинг ведущего
         self.wrong_letter_phrases = [
             "Увы, такой буквы нет в слове!",
 "Нет, не угадали!",
@@ -206,75 +203,58 @@ class PoleChudes:
         self.wheel_angle = 0
    
     def create_interface(self):
-        """Создание пользовательского интерфейса"""
+        """Пользовательский интерфейс"""
         # Основной контейнер
         main_bg_frame = tk.Frame(self.root, bg=self.current_theme["bg_main"])
         main_bg_frame.pack(fill=tk.BOTH, expand=True)
-        
         # Верхняя панель
         header_frame = tk.Frame(main_bg_frame, bg=self.current_theme["header_bg"],
                                height=60, padx=10, pady=5)
         header_frame.pack(fill=tk.X, padx=0, pady=0)
-        
         # Заголовок игры
         game_title = tk.Label(header_frame, text="ПОЛЕ ЧУДЕС",
                              font=self.title_font,
                              bg=self.current_theme["header_bg"],
                              fg=self.current_theme["fg_main"])
         game_title.pack(side=tk.LEFT, padx=15)
-       
         # Информационная панель
         info_frame = tk.Frame(header_frame, bg=self.current_theme["header_bg"])
         info_frame.pack(side=tk.RIGHT, padx=10)
-
         # Номер раунда
         self.round_label = tk.Label(info_frame, text="Раунд: 1",
                                    font=self.score_font,
                                    bg=self.current_theme["header_bg"],
                                    fg=self.current_theme["fg_main"])
         self.round_label.pack(side=tk.RIGHT, padx=10)
-       
-        # Создаем вкладки
+        #вкладки
         notebook_frame = tk.Frame(main_bg_frame, bg=self.current_theme["bg_main"], padx=5, pady=5)
         notebook_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
-       
         self.notebook = ttk.Notebook(notebook_frame)
         self.notebook.pack(fill=tk.BOTH, expand=True)
-       
         # Вкладка игры
         self.game_frame = tk.Frame(self.notebook, bg=self.current_theme["bg_main"])
         self.notebook.add(self.game_frame, text="Игра")
-       
         # Вкладка статистики
         self.stats_frame = tk.Frame(self.notebook, bg=self.current_theme["bg_main"])
         self.notebook.add(self.stats_frame, text="Статистика")
-       
         # Вкладка настроек
         self.settings_frame = tk.Frame(self.notebook, bg=self.current_theme["bg_main"])
         self.notebook.add(self.settings_frame, text="Настройки")
-       
         # Вкладка помощи
         self.help_frame = tk.Frame(self.notebook, bg=self.current_theme["bg_main"])
         self.notebook.add(self.help_frame, text="Помощь")
-       
         # Настройка игрового экрана
         self.setup_game_screen()
-       
         # Настройка экрана статистики
         self.setup_stats_screen()
-       
-        # Настройка экрана настроек
+        # Настройка экрана нтроек
         self.setup_settings_screen()
-       
         # Настройка экрана помощи
         self.setup_help_screen()
-       
         # Нижняя панель
         footer_frame = tk.Frame(main_bg_frame, bg=self.current_theme["bg_secondary"],
                                height=25)
         footer_frame.pack(fill=tk.X, side=tk.BOTTOM)
-       
-        # Информация о версии
         version_label = tk.Label(footer_frame, text="Поле Чудес v1.0 © 2025",
                                 font=("Helvetica", 9),
                                 bg=self.current_theme["bg_secondary"],
@@ -288,15 +268,10 @@ class PoleChudes:
                               font=self.title_font, bg=self.current_theme["bg_main"],
                               fg=self.current_theme["fg_main"])
         help_header.pack(pady=15)
-       
-        # Создаем прокручиваемую область для инструкций
         help_scroll = tk.Frame(self.help_frame, bg=self.current_theme["bg_main"])
         help_scroll.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
-       
-        # Добавляем скроллбар
         scrollbar = tk.Scrollbar(help_scroll)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-       
         # Текстовая область с инструкциями
         help_text = tk.Text(help_scroll, wrap=tk.WORD,
                            bg=self.current_theme["bg_secondary"],
@@ -307,8 +282,6 @@ class PoleChudes:
                            yscrollcommand=scrollbar.set)
         help_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=help_text.yview)
-       
-        # Наполняем инструкции текстом
         help_content = """
 ПОЛЕ ЧУДЕС - ПРАВИЛА ИГРЫ
 
@@ -364,39 +337,30 @@ class PoleChudes:
 
 УДАЧИ В ИГРЕ!
 """
-       
-        # Вставляем текст инструкций
         help_text.insert(tk.END, help_content)
-        help_text.config(state=tk.DISABLED) # Делаем текст только для чтения
+        help_text.config(state=tk.DISABLED) # Делает текст только для чтения
    
     def setup_game_screen(self):
         """Настройка игрового экрана"""
-        # Создаем основной контейнер
         game_container = tk.Frame(self.game_frame,
                                  bg=self.current_theme["bg_main"],
                                  padx=10, pady=5)
         game_container.pack(fill=tk.BOTH, expand=True)
-        
         # ВЕРХНЯЯ ЧАСТЬ: Разделяем на левую и среднюю и правую секции
         top_frame = tk.Frame(game_container, bg=self.current_theme["bg_main"])
         top_frame.pack(fill=tk.BOTH, expand=True, pady=5)
-        
-        # Определяем ширину для каждой из трех секций
         top_frame.columnconfigure(0, weight=2)  # Левая секция - 40%
         top_frame.columnconfigure(1, weight=2)  # Средняя секция (барабан) - 20%
         top_frame.columnconfigure(2, weight=1)  # Правая секция - 40%
-       
         # ЛЕВАЯ СЕКЦИЯ - слово и подсказка
         left_frame = tk.Frame(top_frame, bg=self.current_theme["bg_main"])
         left_frame.grid(row=0, column=0, sticky="nsew", padx=5)
-       
         # Контейнер для слова
         word_container = tk.Frame(left_frame,
                                  bg=self.current_theme["bg_secondary"],
                                  bd=2, relief=tk.RIDGE,
                                  padx=15, pady=15)
         word_container.pack(fill=tk.BOTH, expand=True, pady=5)
-       
         # Метка "ЗАГАДАННОЕ СЛОВО:"
         word_label = tk.Label(word_container,
                              text="ЗАГАДАННОЕ СЛОВО:",
@@ -404,24 +368,20 @@ class PoleChudes:
                              bg=self.current_theme["bg_secondary"],
                              fg=self.current_theme["fg_main"])
         word_label.pack(anchor=tk.W, pady=(0, 10))
-       
         # Фрейм для отображения слова
         self.word_frame = tk.Frame(word_container, bg=self.current_theme["bg_secondary"])
         self.word_frame.pack(pady=5, fill=tk.X)
-       
         # Подсказка
         hint_frame = tk.Frame(word_container,
                              bg=self.current_theme["bg_secondary"],
                              padx=5, pady=5)
         hint_frame.pack(fill=tk.X, pady=10, anchor=tk.W)
-       
         hint_label = tk.Label(hint_frame,
                              text="ПОДСКАЗКА:",
                              font=self.score_font,
                              bg=self.current_theme["bg_secondary"],
                              fg=self.current_theme["accent3"])
         hint_label.pack(anchor=tk.W)
-       
         self.hint_text = tk.Label(hint_frame,
                                  text="",
                                  font=self.hint_font,
@@ -430,21 +390,14 @@ class PoleChudes:
                                  wraplength=400,
                                  justify=tk.LEFT)
         self.hint_text.pack(anchor=tk.W, pady=5)
-        
         # СРЕДНЯЯ СЕКЦИЯ - барабан
         middle_frame = tk.Frame(top_frame, bg=self.current_theme["bg_main"])
         middle_frame.grid(row=0, column=1, sticky="nsew", padx=5)
-        
-        # Контейнер для барабана
         wheel_container = tk.Frame(middle_frame,
                                   bg=self.current_theme["bg_secondary"],
                                   bd=2, relief=tk.RIDGE,
                                   padx=10, pady=10)
         wheel_container.pack(fill=tk.BOTH, expand=True, pady=5)
-       
-
-       
-        # Барабан
         self.wheel_canvas = tk.Canvas(wheel_container,
                                      width=220, height=220,
                                      bg=self.current_theme["bg_secondary"],
@@ -452,34 +405,28 @@ class PoleChudes:
                                      highlightbackground=self.current_theme["border"])
         self.wheel_canvas.pack(pady=10)
        
-        # Рисуем барабан
+        #отрисовка
         self.draw_wheel()
-       
         # ПРАВАЯ СЕКЦИЯ - результаты и управление
         right_frame = tk.Frame(top_frame, bg=self.current_theme["bg_main"])
         right_frame.grid(row=0, column=2, sticky="nsew", padx=5)
-       
-        # Отдельный контейнер для результатов вращения
         results_container = tk.Frame(right_frame,
                                    bg=self.current_theme["bg_secondary"],
                                    bd=2, relief=tk.RIDGE,
                                    padx=10, pady=10)
         results_container.pack(fill=tk.X, pady=5)
-       
         # Результат вращения
         result_frame = tk.Frame(results_container,
                                bg=self.current_theme["bg_accent"],
                                bd=1, relief=tk.GROOVE,
                                padx=10, pady=5)
         result_frame.pack(fill=tk.X)
-       
         self.wheel_result_label = tk.Label(result_frame,
                                          text="РЕЗУЛЬТАТ ВРАЩЕНИЯ",
                                          font=self.score_font,
                                          bg=self.current_theme["bg_accent"],
                                          fg=self.current_theme["fg_main"])
         self.wheel_result_label.pack(pady=2)
-       
         # Значение барабана
         value_frame = tk.Frame(results_container,
                               bg=self.current_theme["bg_secondary"],
@@ -493,27 +440,21 @@ class PoleChudes:
                                         bg=self.current_theme["bg_secondary"],
                                         fg=self.current_theme["fg_main"])
         self.wheel_value_label.pack(pady=2)
-       
-        # Кнопки управления
         controls_container = tk.Frame(right_frame,
                                      bg=self.current_theme["bg_secondary"],
                                      bd=2, relief=tk.RIDGE,
                                      padx=10, pady=5)
         controls_container.pack(fill=tk.X, pady=5)
-       
-        # Заголовок для кнопок
         controls_header = tk.Label(controls_container,
                                   text="УПРАВЛЕНИЕ ИГРОЙ",
                                   font=self.subtitle_font,
                                   bg=self.current_theme["bg_secondary"],
-                                  fg="black")  # Черный цвет заголовка
+                                  fg="black") 
         controls_header.pack(pady=(0, 5))
-       
-        # Кнопки управления
+    
         controls_frame = tk.Frame(controls_container, bg=self.current_theme["bg_secondary"])
         controls_frame.pack(fill=tk.X)
-       
-        # Кнопки с черным текстом
+
         self.spin_button = tk.Button(controls_frame,
                                     text="ВРАЩАТЬ БАРАБАН",
                                     command=self.spin_wheel,
@@ -521,13 +462,12 @@ class PoleChudes:
                                     bg=self.current_theme["button_bg"],
                                     fg="white", 
                                     activebackground=self.current_theme["bg_accent"],
-                                    activeforeground="black", # Черный цвет при активации
+                                    activeforeground="black",
                                     relief=tk.RAISED,
                                     bd=2,
                                     padx=5, pady=3,
                                     width=18)
         self.spin_button.pack(pady=3, fill=tk.X)
-       
         self.solve_button = tk.Button(controls_frame,
                                      text="ОТГАДАТЬ СЛОВО",
                                      command=self.solve_attempt,
@@ -535,14 +475,13 @@ class PoleChudes:
                                      bg=self.current_theme["button_bg"],
                                      fg="white", 
                                      activebackground=self.current_theme["bg_accent"],
-                                     activeforeground="black", # Черный цвет при активации
+                                     activeforeground="black",
                                      relief=tk.RAISED,
                                      bd=2,
                                      padx=5, pady=3,
                                      width=18)
         self.solve_button.pack(pady=3, fill=tk.X)
-       
-        # Кнопка подсказки
+ 
         self.hint_button = tk.Button(controls_frame,
                                     text="ПОДСКАЗКА (500 очков)",
                                     command=self.use_hint,
@@ -550,13 +489,12 @@ class PoleChudes:
                                     bg=self.current_theme["bg_accent"],
                                     fg="white", 
                                     activebackground=self.current_theme["bg_secondary"],
-                                    activeforeground="black", # Черный цвет при активации
+                                    activeforeground="black",
                                     relief=tk.RAISED,
                                     bd=2,
                                     padx=5, pady=3,
                                     width=18)
         self.hint_button.pack(pady=3, fill=tk.X)
-        
         # Фразы ведущего
         status_container = tk.Frame(right_frame,
                                    bg=self.current_theme["bg_accent"],
@@ -570,14 +508,12 @@ class PoleChudes:
                                 bg=self.current_theme["bg_accent"],
                                 fg="white")  
         status_header.pack(anchor=tk.W, pady=(0, 5))
-       
         # Внутренняя рамка для фразы ведущего
         status_frame = tk.Frame(status_container,
                                bg=self.current_theme["bg_secondary"],
                                bd=1, relief=tk.GROOVE,
                                padx=10, pady=10)
         status_frame.pack(fill=tk.X)
-       
         self.status_text = tk.Label(status_frame,
                                    text="Добро пожаловать в игру Поле Чудес!",
                                    font=self.status_font,
@@ -586,7 +522,6 @@ class PoleChudes:
                                    wraplength=270,
                                    justify=tk.LEFT)
         self.status_text.pack(fill=tk.X)
-       
         # СРЕДНЯЯ ЧАСТЬ - информация об игроках
         middle_frame = tk.Frame(game_container, bg=self.current_theme["bg_main"])
         middle_frame.pack(fill=tk.X, pady=5)
@@ -763,11 +698,8 @@ class PoleChudes:
         # Фрейм для статистики
         stats_content = tk.Frame(self.stats_frame, bg=self.current_theme["bg_main"])
         stats_content.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
-       
-        # Создаем TreeView для отображения сохраненных игр
         columns = ("Время", "Раунд", "Лидирующий игрок", "Очки")
         self.stats_tree = ttk.Treeview(stats_content, columns=columns, show="headings")
-       
         # Настройка заголовков
         for col in columns:
             self.stats_tree.heading(col, text=col)
@@ -780,15 +712,13 @@ class PoleChudes:
                                  command=self.update_stats_display,
                                  font=self.button_font, 
                                  bg=self.current_theme["button_bg"], 
-                                 fg="black")  # Черный текст
+                                 fg="black")
         refresh_button.pack(pady=10)
-       
-        # Кнопка для сохранения текущей игры
         save_button = tk.Button(stats_content, text="СОХРАНИТЬ ИГРУ",
                               command=self.save_current_game,
                               font=self.button_font, 
                               bg=self.current_theme["button_bg"], 
-                              fg="black")  # Черный текст
+                              fg="black")  
         save_button.pack(pady=5)
    
     def setup_settings_screen(self):
@@ -813,7 +743,6 @@ class PoleChudes:
                              bg=self.current_theme["bg_main"], 
                              fg=self.current_theme["fg_main"])
         theme_label.grid(row=0, column=0, sticky=tk.W, padx=5, pady=5)
-       
         self.theme_var = tk.StringVar(value="dark")
         dark_radio = tk.Radiobutton(theme_frame, text="Тёмная", variable=self.theme_var, value="dark",
                                   command=self.change_theme, 
@@ -821,15 +750,12 @@ class PoleChudes:
                                   fg=self.current_theme["fg_main"], 
                                   selectcolor=self.current_theme["bg_accent"])
         dark_radio.grid(row=0, column=1, padx=5, pady=5)
-       
         light_radio = tk.Radiobutton(theme_frame, text="Светлая", variable=self.theme_var, value="light",
                                    command=self.change_theme, 
                                    bg=self.current_theme["bg_main"], 
                                    fg=self.current_theme["fg_main"], 
                                    selectcolor=self.current_theme["bg_accent"])
         light_radio.grid(row=0, column=2, padx=5, pady=5)
-       
-        # Настройка размера шрифта
         font_frame = tk.Frame(settings_content, bg=self.current_theme["bg_main"])
         font_frame.pack(fill=tk.X, pady=10)
        
@@ -965,8 +891,6 @@ class PoleChudes:
             if col_count >= max_cols:
                 col_count = 0
                 row_count += 1
-       
-        # Делаем равномерный вес для колонок
         for i in range(max_cols):
             alphabet_grid.columnconfigure(i, weight=1)
         for i in range(row_count + 1):
@@ -981,16 +905,12 @@ class PoleChudes:
         center_x = 110
         center_y = 110
         radius = 100
-       
-        # Рисуем основной круг барабана
         self.wheel_canvas.create_oval(
             center_x - radius, center_y - radius,
             center_x + radius, center_y + radius,
             fill=self.current_theme["bg_secondary"],
             outline=self.current_theme["fg_main"],
             width=2)
-       
-        # Вычисляем угол для каждого сектора
         num_segments = len(self.wheel_segments)
         angle_per_segment = 360 / num_segments
        
@@ -1004,54 +924,35 @@ class PoleChudes:
        
         # Рисуем секторы (без текста)
         for i, segment in enumerate(self.wheel_segments):
-            # Определяем тип сектора и соответствующую цветовую схему
             if isinstance(segment, int):
                 segment_type = "number"
             else:
                 segment_type = segment
-           
-            # Выбираем цветовую схему
             if segment_type in color_schemes:
                 colors = color_schemes[segment_type]
             else:
                 colors = color_schemes["number"] # Для неизвестных типов
-           
-            # Чередуем оттенки
             color_idx = i % 2
             color = colors[color_idx]
-           
-            # Преобразуем цвет в RGB формат для Canvas
             color_hex = f'#{color[0]:02x}{color[1]:02x}{color[2]:02x}'
-           
-            # Вычисляем углы сектора
             start_angle = self.wheel_angle + i * angle_per_segment
             tk_start_angle = 90 - start_angle
-           
-            # Рисуем сектор
             self.wheel_canvas.create_arc(
                 center_x - radius, center_y - radius,
                 center_x + radius, center_y + radius,
                 start=tk_start_angle, extent=-angle_per_segment,
                 fill=color_hex, outline="white", width=1)
-            
-            # Текст на барабане не отображаем по просьбе пользователя
-       
-        # Добавляем стрелку-указатель
         arrow_size = 15
         arrow_points = [
             center_x, center_y - radius - arrow_size, # Верхний наконечник
             center_x - arrow_size, center_y - radius + arrow_size, # Левый угол
             center_x + arrow_size, center_y - radius + arrow_size # Правый угол
         ]
-       
-        # Создаем стрелку
         self.wheel_canvas.create_polygon(
             arrow_points,
             fill=self.current_theme["accent1"],
             outline="white",
             width=2)
-       
-        # Добавляем внутренний круг
         inner_radius = 25
         self.wheel_canvas.create_oval(
             center_x - inner_radius, center_y - inner_radius,
@@ -1059,33 +960,25 @@ class PoleChudes:
             fill=self.current_theme["bg_accent"],
             outline="white",
             width=2)
-       
         # Центральная точка
         self.wheel_canvas.create_oval(
             center_x - 3, center_y - 3,
             center_x + 3, center_y + 3,
             fill="white", outline="white")
-
     def spin_wheel(self):
-        """Вращение барабана с анимацией"""
+        """Вращение барабана"""
         if self.is_spinning:
             return
        
         self.is_spinning = True
-       
-        # Показываем сообщение о вращении
         player_name = self.players[self.current_player_idx]["name"]
         message = f"{player_name} вращает барабан..."
-       
-        # Анимированное появление текста
         def animate_text(text, index=0):
             if index < len(text):
                 self.status_text.config(text=text[:index+1])
-                self.root.after(40, animate_text, text, index+1) # Замедляем анимацию текста
+                self.root.after(40, animate_text, text, index+1) 
        
         animate_text(message)
-       
-        # Отключаем кнопки на время вращения
         self.spin_button.config(state=tk.DISABLED,
                               bg=self.current_theme["bg_secondary"],
                               fg=self.current_theme["fg_secondary"])
@@ -1102,46 +995,26 @@ class PoleChudes:
                             bg=self.current_theme["bg_secondary"],
                             fg=self.current_theme["fg_secondary"])
        
-        # Параметры анимации - увеличиваем количество кадров для более медленного вращения
         total_frames = 70 + random.randint(10, 30) # Больше кадров = медленнее вращение
         frames_left = total_frames
-       
-        # Функция для плавности вращения
         def ease_out_cubic(x):
             return 1 - pow(1 - x, 3)
-       
-        # Выбираем конечный сектор заранее
         final_segment_idx = random.randint(0, len(self.wheel_segments) - 1)
         self.current_wheel_value = self.wheel_segments[final_segment_idx]
         angle_per_segment = 360 / len(self.wheel_segments)
-       
-        # Целевой угол
         target_angle = final_segment_idx * angle_per_segment
         # Добавляем несколько полных оборотов
         target_angle += 360 * 3
-       
-        # Начальный угол
         start_angle = self.wheel_angle
-       
-        # Функция анимации вращения
         def animate_spin():
             nonlocal frames_left
            
             if frames_left > 0:
-                # Коэффициент прогресса анимации
                 progress = 1 - frames_left / total_frames
-               
-                # Применяем функцию плавности
                 eased_progress = ease_out_cubic(progress)
-               
-                # Вычисляем текущий угол с плавным замедлением
                 current_angle = start_angle + eased_progress * (target_angle - start_angle)
-               
-                # Применяем угол к барабану
                 self.wheel_angle = current_angle % 360
                 self.draw_wheel()
-               
-                # Обновляем анимацию вибрации
                 if frames_left > total_frames * 0.7:
                     # Начальная фаза - сильная вибрация
                     shake = 3 if random.random() > 0.5 else -3
@@ -1157,19 +1030,14 @@ class PoleChudes:
                 else:
                     # Остановка - возвращаем на место
                     self.wheel_canvas.place(x=0, y=0)
-               
-                # Продолжаем анимацию с большей задержкой
                 delay = int(50 + eased_progress * 70) # Увеличиваем задержку для замедления вращения
                 frames_left -= 1
                 self.root.after(delay, animate_spin)
             else:
                 # Вращение окончено
                 self.wheel_canvas.place(x=0, y=0)
-               
-                # Мигаем сектором для привлечения внимания
                 flash_count = 0
                 max_flashes = 5
-               
                 def flash_result():
                     nonlocal flash_count
                     if flash_count < max_flashes:
@@ -1180,7 +1048,6 @@ class PoleChudes:
                         else:
                             color = self.current_theme["accent1"]
                             fg_color = "white"
-                       
                         # Устанавливаем текст с мигающим эффектом
                         self.wheel_result_label.config(
                             text="ВЫПАЛО ➤",
@@ -1203,7 +1070,6 @@ class PoleChudes:
                                 bg=color,
                                 fg=fg_color,
                                 font=("Helvetica", 16, "bold"))
-                       
                         flash_count += 1
                         self.root.after(450, flash_result) # Замедляем мигание
                     else:
@@ -1213,45 +1079,32 @@ class PoleChudes:
                             bg=self.current_theme["bg_accent"],
                             fg=self.current_theme["fg_main"],
                             font=self.score_font)
-                       
                         self.wheel_value_label.config(
                             text=str(self.current_wheel_value),
                             bg=self.current_theme["bg_secondary"],
                             fg=self.current_theme["fg_main"],
                             font=self.wheel_font)
-                       
-                        # Включаем кнопки снова
                         self.spin_button.config(
                             state=tk.NORMAL,
                             bg=self.current_theme["button_bg"],
-                            fg="white")  # Возвращаем черный текст
-                       
+                            fg="white")  
                         self.solve_button.config(
                             state=tk.NORMAL,
                             bg=self.current_theme["button_bg"],
-                            fg="white")  # Возвращаем черный текст
-                       
+                            fg="white") 
                         self.hint_button.config(
                             state=tk.NORMAL,
                             bg=self.current_theme["bg_accent"],
-                            fg="white")  # Возвращаем черный текст
-                       
-                        # Активируем кнопки букв, которые еще не использованы
+                            fg="white")  
                         for letter, button in self.letter_buttons.items():
                             if letter not in self.used_letters:
                                 button.config(
                                     state=tk.NORMAL,
                                     bg=self.current_theme["button_bg"],
-                                    fg="white")  # Возвращаем черный текст
-                       
-                        # Завершаем вращение и обрабатываем результат
+                                    fg="white") 
                         self.is_spinning = False
                         self.process_wheel_result()
-               
-                # Запускаем эффект мигания
                 flash_result()
-       
-        # Запускаем анимацию
         animate_spin()
    
     def process_wheel_result(self):
@@ -1360,18 +1213,12 @@ class PoleChudes:
         def choose_money():
             nonlocal money_label, choices_label
             self.prize_choices_left -= 1
-           
-            # Увеличиваем сумму очков
             if self.current_money == 100:
                 self.current_money = 1000
             elif self.current_money == 1000:
                 self.current_money = 5000
-           
-            # Обновляем метки
             money_label.config(text=f"ОЧКИ: {self.current_money}")
             choices_label.config(text=f"ОСТАЛОСЬ ВЫБОРОВ: {self.prize_choices_left}")
-           
-            # Проверяем, закончились ли выборы
             if self.prize_choices_left == 0:
                 messagebox.showinfo("Поздравляем!", f"Вы выиграли {self.current_money} очков!")
                 self.players[self.current_player_idx]["score"] += self.current_money
@@ -1383,15 +1230,10 @@ class PoleChudes:
         def choose_prize():
             prize = random.choice(self.prizes)
             messagebox.showinfo("Поздравляем!", f"Вы выиграли: {prize}!\nДополнительно {self.current_money} очков!")
-           
-            # Добавляем очки
             self.players[self.current_player_idx]["score"] += self.current_money
             self.update_player_indicators()
-           
             dialog.destroy()
             self.next_player()
-       
-        # Кнопки выбора
         button_frame = tk.Frame(dialog, bg=self.current_theme["bg_main"])
         button_frame.pack(pady=15)
        
@@ -1415,14 +1257,10 @@ class PoleChudes:
             return
        
         self.used_letters.add(letter)
-       
-        # Делаем неактивной кнопку этой буквы
         if letter in self.letter_buttons:
             self.letter_buttons[letter].config(state=tk.DISABLED, 
                                             bg=self.current_theme["bg_secondary"], 
                                             fg=self.current_theme["fg_secondary"])
-       
-        # Проверяем, есть ли буква в слове
         if letter in self.current_word:
             letter_found = 0
             new_hidden_word = list(self.hidden_word)
@@ -1431,41 +1269,27 @@ class PoleChudes:
                     new_hidden_word[i] = letter
                     letter_found += 1
             self.hidden_word = new_hidden_word
-           
-            # Обновляем отображение
             self.update_word_display()
-           
-            # Добавляем очки (если это был сектор с очками)
             points_earned = 0
             if isinstance(self.current_wheel_value, int):
                 points_earned = letter_found * self.current_wheel_value
                 self.players[self.current_player_idx]["score"] += points_earned
                 self.update_player_indicators()
-           
-            # Обновляем статус
             player_name = self.players[self.current_player_idx]["name"]
             points_text = f"+{points_earned} очков" if points_earned > 0 else ""
             message = f"{player_name} угадал букву {letter}! {points_text}"
             self.status_text.config(text=message.strip())
-           
-            # Проверяем, полностью ли отгадано слово
             if "_" not in self.hidden_word:
                 self.word_solved()
                 return
-            # Если буква была правильной и игрок - ИИ, продолжает ИИ (крутит снова)
             elif not self.players[self.current_player_idx]["is_human"]:
                 self.root.after(1500, self.ai_play)
        
         else:
-            # Буквы нет в слове - используем шуточную фразу
             player_name = self.players[self.current_player_idx]["name"]
-           
-            # Выбираем случайную фразу
             wrong_phrase = random.choice(self.wrong_letter_phrases)
             message = f"{player_name}: буква '{letter}'. {wrong_phrase}"
             self.status_text.config(text=message)
-           
-            # Переход к следующему игроку
             self.next_player()
    
     def solve_attempt(self):
@@ -1473,31 +1297,17 @@ class PoleChudes:
         # Если это ИИ, игнорируем вызов
         if not self.players[self.current_player_idx]["is_human"]:
             return
-       
-        # Диалог для ввода слова
         solution = simpledialog.askstring("Отгадать слово", "Введите отгадку:")
-        
         if not solution:
             return
-        
-        # Приводим введенное слово к верхнему регистру
         solution = solution.upper()
-        
-        # Сравниваем с загаданным словом
         if solution == self.current_word:
-            # Успех - открываем все буквы
             self.hidden_word = list(self.current_word)
             self.update_word_display()
-            
-            # Добавляем бонусные очки за неоткрытые буквы
             hidden_count = self.hidden_word.count("_")
             bonus_points = hidden_count * 100
             self.players[self.current_player_idx]["score"] += bonus_points
-            
-            # Показываем сообщение
             messagebox.showinfo("Поздравляем!", f"Вы правильно отгадали слово!\nБонус: {bonus_points} очков")
-            
-            # Завершаем раунд
             self.word_solved()
         else:
             # Неверная попытка
@@ -1506,16 +1316,11 @@ class PoleChudes:
     
     def word_solved(self):
         """Обработка успешного отгадывания слова"""
-        # Открываем все буквы
         self.hidden_word = list(self.current_word)
         self.update_word_display()
-        
-        # Сообщение
         player_name = self.players[self.current_player_idx]["name"]
         message = f"Слово отгадано! {player_name} получает дополнительные очки!"
         self.status_text.config(text=message)
-        
-        # Переходим к следующему раунду или завершаем игру
         self.root.after(2000, self.next_round)
     
     def next_round(self):
@@ -1523,47 +1328,28 @@ class PoleChudes:
         max_rounds = self.rounds_var.get()
         
         if self.game_round < max_rounds:
-            # Переходим к следующему раунду
             self.game_round += 1
             self.round_label.config(text=f"Раунд: {self.game_round}")
-            
-            # Выбираем нового игрока для начала раунда
             self.current_player_idx = (self.current_player_idx + 1) % len(self.players)
-            
-            # Новое слово
+
             self.select_word()
-            
-            # Очищаем использованные буквы
             self.used_letters = set()
-            
-            # Обновляем отображение
             self.update_player_indicators()
             self.update_word_display()
-            
-            # Обновляем алфавит
             self.create_alphabet()
-            
-            # Сообщение о новом раунде
             message = f"Начинается раунд {self.game_round}! Первым играет {self.players[self.current_player_idx]['name']}."
             self.status_text.config(text=message)
-            
-            # Если первый игрок - ИИ, запускаем его ход
             if not self.players[self.current_player_idx]["is_human"]:
                 self.root.after(1500, self.ai_play)
         else:
-            # Игра завершена
             self.game_over()
     
     def game_over(self):
         """Завершение игры"""
         # Находим победителя
         winner = max(self.players, key=lambda p: p["score"])
-        
-        # Сообщение о завершении
         messagebox.showinfo("Игра окончена", 
                            f"Игра завершена!\n\nПобедитель: {winner['name']}\nСчет: {winner['score']} очков")
-        
-        # Спрашиваем о новой игре
         if messagebox.askyesno("Новая игра", "Хотите начать новую игру?"):
             self.new_game()
     
@@ -1571,33 +1357,23 @@ class PoleChudes:
         """Переход к следующему игроку"""
         self.current_player_idx = (self.current_player_idx + 1) % len(self.players)
         self.update_player_indicators()
-        
-        # Если следующий игрок ИИ, запускаем его ход с большей задержкой
         if not self.players[self.current_player_idx]["is_human"]:
-            self.root.after(3000, self.ai_play) # Увеличиваем задержку для замедления темпа игры
-    
+            self.root.after(3000, self.ai_play) 
     def ai_play(self):
         """Ход ИИ - вращение барабана"""
-        # Увеличиваем задержку перед ходом ИИ
-        self.root.after(2000, self.spin_wheel) # Замедляем темп игры
-    
+        self.root.after(2000, self.spin_wheel) 
     def ai_guess_letter(self):
         """ИИ угадывает букву"""
         ai_player = self.players[self.current_player_idx]
         ai_name = ai_player["name"]
-        
-        # Находим неиспользованные буквы
         russian_alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
         unused_letters = [letter for letter in russian_alphabet if letter not in self.used_letters]
         
         if not unused_letters:
-            # Все буквы использованы - пропускаем ход
             message = f"{ai_name} пропускает ход - все буквы уже названы."
             self.status_text.config(text=message)
             self.next_player()
             return
-        
-        # Разные стратегии для разных ИИ
         if ai_name == "ИИ 1":
             # Выбирает наиболее частые буквы
             letter_frequency = "ОЕАИНТСРВЛКМДПУЯЫЬГЗБЧЙХЖШЮЦЩЭФЪЁ"
@@ -1626,11 +1402,8 @@ class PoleChudes:
             else:
                 chosen_letter = random.choice(unused_letters)
         
-        # Сообщение о выборе буквы
         message = f"{ai_name} выбирает букву: {chosen_letter}"
         self.status_text.config(text=message)
-        
-        # Увеличиваем паузу перед проверкой буквы для замедления темпа игры
         self.root.after(2500, lambda: self.guess_letter(chosen_letter))
     
     def select_word(self):
@@ -1638,56 +1411,33 @@ class PoleChudes:
         if not self.word_bank:
             messagebox.showerror("Ошибка", "Банк слов пуст!")
             return
-        
         # Выбираем случайное слово
         self.current_word_data = random.choice(self.word_bank)
         self.current_word = self.current_word_data["word"]
-        
-        # Инициализируем скрытое слово
         self.hidden_word = ["_"] * len(self.current_word)
-        
-        # Устанавливаем подсказку
         self.hint_text.config(text=self.current_word_data["hint"])
     
     def new_game(self):
         """Начало новой игры"""
-        # Сбрасываем переменные
         self.game_round = 1
         self.round_label.config(text=f"Раунд: {self.game_round}")
-        
-        # Сбрасываем счет игроков
         for player in self.players:
             player["score"] = 0
-        
-        # Игра всегда начинается с человека-игрока (индекс 0)
         self.current_player_idx = 0
-        
-        # Выбираем слово
         self.select_word()
-        
-        # Очищаем использованные буквы
         self.used_letters = set()
-        
-        # Обновляем отображение
         self.update_player_indicators()
         self.update_word_display()
         self.create_alphabet()
-        
-        # Приветственное сообщение
         welcome_message = "Добро пожаловать в игру ПОЛЕ ЧУДЕС! Отгадайте загаданное слово, вращая барабан и называя буквы."
         self.status_text.config(text=welcome_message)
     
     def update_word_display(self):
         """Обновление отображения угадываемого слова"""
-        # Очищаем предыдущее отображение
         for widget in self.word_frame.winfo_children():
             widget.destroy()
-       
-        # Показываем слово с улучшенными рамками
         for char in self.hidden_word:
-            # Используем градиент для ячеек в зависимости от состояния
             if char == "_":
-                # Пустая ячейка (неотгаданная буква)
                 cell_bg = "#1E2130" # Темно-синий фон
                 cell_fg = "#555555" # Серый текст
                 cell_text = "_" # Подчеркивание для неотгаданных букв
@@ -1699,14 +1449,11 @@ class PoleChudes:
                 cell_text = char
                 cell_relief = tk.RAISED
            
-            # Создаем стильную ячейку
             char_frame = tk.Frame(self.word_frame, bg="#333333", bd=2,
                                  relief=tk.SUNKEN, width=40, height=50,
                                  highlightbackground="#444", highlightthickness=1)
             char_frame.pack_propagate(False)
             char_frame.pack(side=tk.LEFT, padx=3, pady=5)
-           
-            # Внутренняя рамка для буквы
             inner_frame = tk.Frame(char_frame, bg=cell_bg, bd=1,
                                   relief=cell_relief, width=36, height=46)
             inner_frame.pack_propagate(False)
@@ -1727,18 +1474,13 @@ class PoleChudes:
                 player_labels["active"].pack_forget()
                 player_labels["name"].config(fg="grey", font=self.score_font)
                 player_labels["score"].config(fg="grey")
-           
-            # Обновление отображения счета
             score_color = "white" if i == self.current_player_idx else "grey"
             player_labels["score"].config(text=f"Счет: {self.players[i]['score']}", fg=score_color)
     
     def update_stats_display(self):
         """Обновление отображения статистики из сохраненных игр"""
-        # Очищаем текущие данные
         for item in self.stats_tree.get_children():
             self.stats_tree.delete(item)
-       
-        # Пытаемся загрузить данные
         saved_games = []
         if os.path.exists(self.game_data.save_file):
             try:
@@ -1746,13 +1488,10 @@ class PoleChudes:
                     saved_games = json.load(file)
             except:
                 pass
-       
-        # Добавляем данные в TreeView
+    
         for i, game in enumerate(saved_games):
             timestamp = game.get("timestamp", "Неизвестно")
             current_round = game.get("current_round", 0)
-           
-            # Находим лидера
             players = game.get("players", [])
             leader_name = "Нет данных"
             leader_score = 0
@@ -1763,7 +1502,6 @@ class PoleChudes:
                 leader_score = leader.get("score", 0)
            
             self.stats_tree.insert("", "end", values=(timestamp, current_round, leader_name, leader_score))
-    
     def save_current_game(self):
         """Сохранение текущего состояния игры"""
         success = self.game_data.save_game_state(self.players, self.game_round, self.current_player_idx)
@@ -1782,8 +1520,6 @@ class PoleChudes:
         else:
             self.current_theme["bg_main"] = "#FFFFFF"
             self.current_theme["fg_main"] = "#000000"
-       
-        # Обновляем цвета основных фреймов
         for frame in [self.game_frame, self.stats_frame, self.settings_frame, self.help_frame]:
             frame.config(bg=self.current_theme["bg_main"])
        
@@ -1792,8 +1528,6 @@ class PoleChudes:
     def change_font_size(self, size):
         """Изменение размера шрифта"""
         size = int(float(size))
-       
-        # Обновляем размеры шрифтов
         self.score_font.configure(size=size)
         self.button_font.configure(size=size)
        
@@ -1804,10 +1538,8 @@ class PoleChudes:
         self.theme_var.set("dark")
         self.font_scale.set(12)
         self.rounds_var.set(3)
-       
         messagebox.showinfo("Настройки", "Настройки сброшены к значениям по умолчанию.")
-
-# Запуск приложения
+        
 if __name__ == "__main__":
     root = tk.Tk()
     app = PoleChudes(root)
